@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Form, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -16,9 +15,9 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -27,7 +26,6 @@ const Register = () => {
     setLoading(true);
     setError('');
 
-    // Şifre kontrolü
     if (formData.password !== formData.passwordConfirm) {
       setError('Şifreler eşleşmiyor');
       setLoading(false);
@@ -35,20 +33,43 @@ const Register = () => {
     }
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
-        name: formData.name,
+      const formBody = new URLSearchParams({
+        username: formData.name,
         email: formData.email,
-        password: formData.password
+        password: formData.password,
+        password_confirmation: formData.passwordConfirm,
       });
 
-      // Kayıt başarılı, giriş sayfasına yönlendir
-      navigate('/login', { 
-        state: { 
-          message: 'Kayıt başarılı! Lütfen giriş yapın.' 
-        } 
+      console.log('İstek gönderiliyor:', {
+        url: `${process.env.REACT_APP_API_URL}/api/v1/users/sign_up`,
+        body: Object.fromEntries(formBody)
       });
+
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/users/sign_up`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formBody,
+      });
+
+      const data = await response.json();
+      console.log('Response Status:', response.status);
+      console.log('Response Body:', data);
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        navigate('/login', {
+          state: {
+            message: data.message || 'Kayıt başarılı',
+          },
+        });
+      } else {
+        let errorMessage = data.error || data.message || 'Kayıt işlemi başarısız';
+        throw new Error(errorMessage);
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'Kayıt olurken bir hata oluştu');
+      setError(err.message || 'Bağlantı hatası oluştu');
     } finally {
       setLoading(false);
     }
@@ -59,7 +80,7 @@ const Register = () => {
       <Card style={{ width: '400px' }} className="p-4">
         <Card.Title className="text-center mb-4">Kayıt Ol</Card.Title>
         {error && <Alert variant="danger">{error}</Alert>}
-        
+
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Ad Soyad</Form.Label>
@@ -114,9 +135,9 @@ const Register = () => {
             />
           </Form.Group>
 
-          <Button 
-            variant="primary" 
-            type="submit" 
+          <Button
+            variant="primary"
+            type="submit"
             className="w-100 mb-3"
             disabled={loading}
           >
@@ -135,4 +156,4 @@ const Register = () => {
   );
 };
 
-export default Register; 
+export default Register;

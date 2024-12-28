@@ -40,13 +40,30 @@ const EditProfile = () => {
     setSuccess('');
 
     try {
-      await axios.put(`${process.env.REACT_APP_API_URL}/user/profile`, profile, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      const formBody = new URLSearchParams({
+        name: profile.name,
+        email: profile.email,
+        phone: profile.phone || '',
+        address: profile.address || ''
       });
+
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/user/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: formBody
+      });
+
+      if (!response.ok) {
+        throw new Error('Profil güncellenirken bir hata oluştu');
+      }
+
       setSuccess('Profil başarıyla güncellendi');
       setTimeout(() => navigate('/profile'), 2000);
     } catch (err) {
-      setError('Profil güncellenirken bir hata oluştu');
+      setError(err.message || 'Profil güncellenirken bir hata oluştu');
     } finally {
       setSaving(false);
     }

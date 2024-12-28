@@ -4,6 +4,9 @@ import { ThemeProvider } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+// Axios yapılandırması
+import './utils/axios';
+
 // Pages
 import Login from './pages/Login';
 import Register from './pages/Register';

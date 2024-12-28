@@ -25,15 +25,28 @@ const Login = ({ setIsAuthenticated }) => {
     setSuccess('');
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
+      const formBody = new URLSearchParams({
         email,
         password
       });
 
-      localStorage.setItem('token', response.data.token);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/users/sign_in`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: formBody
+      });
+
+      if (!response.ok) {
+        throw new Error('Giriş yapılırken bir hata oluştu');
+      }
+
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
       setIsAuthenticated(true);
     } catch (err) {
-      setError(err.response?.data?.message || 'Giriş yapılırken bir hata oluştu');
+      setError(err.message || 'Giriş yapılırken bir hata oluştu');
     } finally {
       setLoading(false);
     }

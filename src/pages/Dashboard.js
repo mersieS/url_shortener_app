@@ -31,14 +31,27 @@ const Dashboard = () => {
     setError('');
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/links`, 
-        { originalUrl: newUrl },
-        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }}
-      );
+      const formBody = new URLSearchParams({
+        original_url: newUrl
+      });
+
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/urls`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: formBody
+      });
+
+      if (!response.ok) {
+        throw new Error('Link kısaltılırken bir hata oluştu');
+      }
+
       setNewUrl('');
       fetchLinks();
     } catch (err) {
-      setError('Link kısaltılırken bir hata oluştu');
+      setError(err.message || 'Link kısaltılırken bir hata oluştu');
     } finally {
       setLoading(false);
     }
