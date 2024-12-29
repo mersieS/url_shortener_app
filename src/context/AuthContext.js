@@ -43,13 +43,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // İlk kontrol
     checkToken();
 
-    // Her 10 saniyede bir kontrol et
     const interval = setInterval(checkToken, 10000);
 
-    // Component unmount olduğunda interval'i temizle
     return () => clearInterval(interval);
   }, []);
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -8,6 +8,7 @@ import Statistics from './pages/Statistics';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
 import Subscription from './pages/Subscription';
+import Layout from './components/Layout';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -20,7 +21,7 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" />;
   }
 
-  return children;
+  return <Layout>{children}</Layout>;
 };
 
 const PublicRoute = ({ children }) => {
