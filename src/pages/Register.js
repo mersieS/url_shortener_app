@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, Form, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import './Auth.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -76,15 +76,19 @@ const Register = () => {
   };
 
   return (
-    <div className="d-flex align-items-center justify-content-center min-vh-100">
-      <Card style={{ width: '400px' }} className="p-4">
-        <Card.Title className="text-center mb-4">Kayıt Ol</Card.Title>
-        {error && <Alert variant="danger">{error}</Alert>}
+    <div className="auth-container">
+      <div className="auth-box">
+        <div className="auth-header">
+          <h1>URL Kısaltıcı</h1>
+          <p>Yeni hesap oluşturun</p>
+        </div>
 
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Label>Ad Soyad</Form.Label>
-            <Form.Control
+        {error && <div className="auth-error">{error}</div>}
+
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="form-group">
+            <label>Ad Soyad</label>
+            <input
               type="text"
               name="name"
               value={formData.name}
@@ -92,11 +96,11 @@ const Register = () => {
               placeholder="Ad ve soyadınızı girin"
               required
             />
-          </Form.Group>
+          </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>E-posta</Form.Label>
-            <Form.Control
+          <div className="form-group">
+            <label>E-posta</label>
+            <input
               type="email"
               name="email"
               value={formData.email}
@@ -104,11 +108,11 @@ const Register = () => {
               placeholder="E-posta adresinizi girin"
               required
             />
-          </Form.Group>
+          </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Şifre</Form.Label>
-            <Form.Control
+          <div className="form-group">
+            <label>Şifre</label>
+            <input
               type="password"
               name="password"
               value={formData.password}
@@ -117,14 +121,12 @@ const Register = () => {
               required
               minLength={6}
             />
-            <Form.Text className="text-muted">
-              Şifreniz en az 6 karakter uzunluğunda olmalıdır.
-            </Form.Text>
-          </Form.Group>
+            <small>Şifreniz en az 6 karakter uzunluğunda olmalıdır.</small>
+          </div>
 
-          <Form.Group className="mb-4">
-            <Form.Label>Şifre Tekrar</Form.Label>
-            <Form.Control
+          <div className="form-group">
+            <label>Şifre Tekrar</label>
+            <input
               type="password"
               name="passwordConfirm"
               value={formData.passwordConfirm}
@@ -133,25 +135,24 @@ const Register = () => {
               required
               minLength={6}
             />
-          </Form.Group>
+          </div>
 
-          <Button
-            variant="primary"
-            type="submit"
-            className="w-100 mb-3"
+          <button 
+            type="submit" 
+            className={`auth-button ${loading ? 'loading' : ''}`}
             disabled={loading}
           >
             {loading ? 'Kayıt Yapılıyor...' : 'Kayıt Ol'}
-          </Button>
+          </button>
 
-          <div className="text-center">
-            <small className="text-muted">
+          <div className="auth-links">
+            <span>
               Zaten hesabınız var mı?{' '}
               <Link to="/login">Giriş Yap</Link>
-            </small>
+            </span>
           </div>
-        </Form>
-      </Card>
+        </form>
+      </div>
     </div>
   );
 };

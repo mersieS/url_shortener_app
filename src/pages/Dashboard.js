@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import './Dashboard.css';
 
 const Dashboard = () => {
   const [links, setLinks] = useState([]);
@@ -16,12 +15,24 @@ const Dashboard = () => {
 
   const fetchLinks = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/links`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/urls`, {
+        headers: { 
+          'Authorization': `Bearer ${localStorage.getItem('token')}` 
+        }
       });
-      setLinks(response.data);
+
+      const data = await response.json();
+      console.log('Links response:', data);
+
+      if (response.ok) {
+        const linksArray = Array.isArray(data) ? data : data.urls || [];
+        setLinks(linksArray);
+      } else {
+        throw new Error(data.error || 'Linkler yüklenirken bir hata oluştu');
+      }
     } catch (err) {
-      setError('Linkler yüklenirken bir hata oluştu');
+      console.error('Fetch links error:', err);
+      setError(err.message || 'Linkler yüklenirken bir hata oluştu');
     }
   };
 
@@ -44,13 +55,17 @@ const Dashboard = () => {
         body: formBody
       });
 
-      if (!response.ok) {
-        throw new Error('Link kısaltılırken bir hata oluştu');
-      }
+      const data = await response.json();
+      console.log('Create URL response:', data);
 
-      setNewUrl('');
-      fetchLinks();
+      if (response.ok) {
+        setNewUrl('');
+        fetchLinks();
+      } else {
+        throw new Error(data.error || 'Link kısaltılırken bir hata oluştu');
+      }
     } catch (err) {
+      console.error('Create URL error:', err);
       setError(err.message || 'Link kısaltılırken bir hata oluştu');
     } finally {
       setLoading(false);
@@ -58,55 +73,53 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
-      <h2 className="mb-4">Dashboard</h2>
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <h2>Dashboard</h2>
+      </div>
       
-      <Card className="mb-4">
-        <Card.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="d-flex gap-2">
-              <Form.Control
-                type="url"
-                placeholder="Kısaltmak istediğiniz URL'yi girin"
-                value={newUrl}
-                onChange={(e) => setNewUrl(e.target.value)}
-                required
-              />
-              <Button type="submit" disabled={loading}>
-                {loading ? 'Kısaltılıyor...' : 'Kısalt'}
-              </Button>
-            </Form.Group>
-          </Form>
-        </Card.Body>
-      </Card>
+      <div className="url-shortener-card">
+        <form onSubmit={handleSubmit} className="url-form">
+          <input
+            type="url"
+            className="url-input"
+            placeholder="Kısaltmak istediğiniz URL'yi girin"
+            value={newUrl}
+            onChange={(e) => setNewUrl(e.target.value)}
+            required
+          />
+          <button 
+            type="submit" 
+            className={`shorten-button ${loading ? 'loading' : ''}`}
+            disabled={loading}
+          >
+            {loading ? 'Kısaltılıyor...' : 'Kısalt'}
+          </button>
+        </form>
+      </div>
 
-      {error && <Alert variant="danger" className="mb-4">{error}</Alert>}
+      {error && <div className="error-message">{error}</div>}
 
-      <Row xs={1} md={2} lg={3} className="g-4">
-        {links.map((link) => (
-          <Col key={link.id}>
-            <Card 
-              className="h-100 cursor-pointer" 
-              onClick={() => navigate(`/statistics/${link.id}`)}
-            >
-              <Card.Body>
-                <Card.Title className="text-truncate">{link.shortUrl}</Card.Title>
-                <Card.Text className="text-muted text-truncate mb-2">
-                  {link.originalUrl}
-                </Card.Text>
-                <div className="d-flex justify-content-between">
-                  <small className="text-muted">
-                    Tıklanma: {link.clickCount}
-                  </small>
-                  <small className="text-muted">
-                    Kazanç: {link.earnings}₺
-                  </small>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
+      <div className="links-grid">
+        {Array.isArray(links) && links.map((link) => (
+          <div 
+            key={link.id}
+            className="link-card"
+            onClick={() => navigate(`/statistics/${link.id}`)}
+          >
+            <div className="link-title">{link.short_url}</div>
+            <div className="link-url">{link.original_url}</div>
+            <div className="link-stats">
+              <div className="stat-item">
+                Tıklanma: {link.click_count || 0}
+              </div>
+              <div className="stat-item">
+                Kazanç: {link.earnings || 0}₺
+              </div>
+            </div>
+          </div>
         ))}
-      </Row>
+      </div>
     </div>
   );
 };

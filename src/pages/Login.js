@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Form, Button, Alert } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
+import './Auth.css';
 
-const Login = ({ setIsAuthenticated }) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const location = useLocation();
+  const { login } = useAuth();
 
   useEffect(() => {
-    // Kayıt başarılı mesajını göster
     if (location.state?.message) {
       setSuccess(location.state.message);
     }
@@ -30,6 +30,11 @@ const Login = ({ setIsAuthenticated }) => {
         password
       });
 
+      console.log('İstek gönderiliyor:', {
+        url: `${process.env.REACT_APP_API_URL}/api/v1/users/sign_in`,
+        body: Object.fromEntries(formBody)
+      });
+
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/users/sign_in`, {
         method: 'POST',
         headers: {
@@ -38,66 +43,76 @@ const Login = ({ setIsAuthenticated }) => {
         body: formBody
       });
 
-      if (!response.ok) {
-        throw new Error('Giriş yapılırken bir hata oluştu');
-      }
-
       const data = await response.json();
-      localStorage.setItem('token', data.token);
-      setIsAuthenticated(true);
+      console.log('Response Status:', response.status);
+      console.log('Response Body:', data);
+
+      if (response.ok) {
+        login(data.token);
+      } else {
+        let errorMessage = data.error;
+        if (errorMessage === 'Invalid email or password') {
+          errorMessage = 'E-posta veya şifre hatalı';
+        }
+        throw new Error(errorMessage || 'Giriş yapılırken bir hata oluştu');
+      }
     } catch (err) {
-      setError(err.message || 'Giriş yapılırken bir hata oluştu');
+      setError(err.message || 'Bağlantı hatası oluştu');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="d-flex align-items-center justify-content-center min-vh-100">
-      <Card style={{ width: '400px' }} className="p-4">
-        <Card.Title className="text-center mb-4">URL Kısaltıcı</Card.Title>
-        {error && <Alert variant="danger">{error}</Alert>}
-        {success && <Alert variant="success">{success}</Alert>}
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Label>E-posta</Form.Label>
-            <Form.Control
+    <div className="auth-container">
+      <div className="auth-box">
+        <div className="auth-header">
+          <h1>URL Kısaltıcı</h1>
+          <p>Hesabınıza giriş yapın</p>
+        </div>
+        
+        {error && <div className="auth-error">{error}</div>}
+        {success && <div className="auth-success">{success}</div>}
+        
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="form-group">
+            <label>E-posta</label>
+            <input
               type="email"
-              placeholder="E-posta adresinizi girin"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="E-posta adresinizi girin"
               required
             />
-          </Form.Group>
-
-          <Form.Group className="mb-4">
-            <Form.Label>Şifre</Form.Label>
-            <Form.Control
+          </div>
+          
+          <div className="form-group">
+            <label>Şifre</label>
+            <input
               type="password"
-              placeholder="Şifrenizi girin"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="Şifrenizi girin"
               required
             />
-          </Form.Group>
-
-          <Button 
-            variant="primary" 
+          </div>
+          
+          <button 
             type="submit" 
-            className="w-100 mb-3"
+            className={`auth-button ${loading ? 'loading' : ''}`}
             disabled={loading}
           >
             {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
-          </Button>
-
-          <div className="text-center">
-            <small className="text-muted">
+          </button>
+          
+          <div className="auth-links">
+            <span>
               Hesabınız yok mu?{' '}
               <Link to="/register">Kayıt Ol</Link>
-            </small>
+            </span>
           </div>
-        </Form>
-      </Card>
+        </form>
+      </div>
     </div>
   );
 };
