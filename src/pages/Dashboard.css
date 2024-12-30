@@ -24,18 +24,20 @@
 }
 
 .url-form {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
   gap: 15px;
+  align-items: start;
 }
 
 .url-input {
-  flex: 1;
   padding: 14px 20px;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
   font-size: 16px;
   transition: all 0.3s ease;
   outline: none;
+  width: 100%;
 }
 
 .url-input:focus {
@@ -54,6 +56,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
+  height: 52px;
 }
 
 .shorten-button:hover:not(:disabled) {
@@ -106,31 +109,83 @@
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.link-title {
+.link-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.link-name {
   font-size: 18px;
   font-weight: 600;
   color: #2d3748;
-  margin-bottom: 10px;
-  word-break: break-all;
 }
 
-.link-url {
-  color: #718096;
+.link-date {
   font-size: 14px;
-  margin-bottom: 15px;
-  word-break: break-all;
+  color: #718096;
 }
 
-.link-stats {
+.link-short-url {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  padding-top: 15px;
-  border-top: 1px solid #e2e8f0;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #667eea;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background: #f7fafc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.stat-item {
+.link-short-url:hover {
+  background: #edf2f7;
+}
+
+.link-short-url span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copy-button {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
   color: #718096;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+  background: #edf2f7;
+  color: #667eea;
+}
+
+.copy-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.copied-text {
   font-size: 14px;
+  color: #48bb78;
+  font-weight: 500;
+}
+
+.link-original-url {
+  font-size: 14px;
+  color: #718096;
+  word-break: break-all;
+  line-height: 1.4;
 }
 
 .error-message {
@@ -146,9 +201,9 @@
   to { transform: rotate(360deg); }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .url-form {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .shorten-button {

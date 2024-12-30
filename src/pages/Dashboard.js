@@ -5,13 +5,24 @@ import './Dashboard.css';
 const Dashboard = () => {
   const [links, setLinks] = useState([]);
   const [newUrl, setNewUrl] = useState('');
+  const [urlName, setUrlName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [copiedId, setCopiedId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchLinks();
   }, []);
+
+  useEffect(() => {
+    if (copiedId) {
+      const timer = setTimeout(() => {
+        setCopiedId(null);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [copiedId]);
 
   const fetchLinks = async () => {
     try {
@@ -25,8 +36,7 @@ const Dashboard = () => {
       console.log('Links response:', data);
 
       if (response.ok) {
-        const linksArray = Array.isArray(data) ? data : data.urls || [];
-        setLinks(linksArray);
+        setLinks(data.url || []);
       } else {
         throw new Error(data.error || 'Linkler yüklenirken bir hata oluştu');
       }
@@ -43,6 +53,7 @@ const Dashboard = () => {
 
     try {
       const formBody = new URLSearchParams({
+        name: urlName,
         original_url: newUrl
       });
 
@@ -60,6 +71,7 @@ const Dashboard = () => {
 
       if (response.ok) {
         setNewUrl('');
+        setUrlName('');
         fetchLinks();
       } else {
         throw new Error(data.error || 'Link kısaltılırken bir hata oluştu');
@@ -72,6 +84,26 @@ const Dashboard = () => {
     }
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('tr-TR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const handleCopyClick = async (e, shortUrl, id) => {
+    e.stopPropagation(); // Link karta tıklamayı engelle
+    try {
+      const fullUrl = `http://localhost:3000/${shortUrl}`;
+      await navigator.clipboard.writeText(fullUrl);
+      setCopiedId(id);
+    } catch (err) {
+      console.error('Kopyalama hatası:', err);
+    }
+  };
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
@@ -80,6 +112,14 @@ const Dashboard = () => {
       
       <div className="url-shortener-card">
         <form onSubmit={handleSubmit} className="url-form">
+          <input
+            type="text"
+            className="url-input"
+            placeholder="Link adı"
+            value={urlName}
+            onChange={(e) => setUrlName(e.target.value)}
+            required
+          />
           <input
             type="url"
             className="url-input"
@@ -101,22 +141,40 @@ const Dashboard = () => {
       {error && <div className="error-message">{error}</div>}
 
       <div className="links-grid">
-        {Array.isArray(links) && links.map((link) => (
+        {links.map((link) => (
           <div 
             key={link.id}
             className="link-card"
             onClick={() => navigate(`/statistics/${link.id}`)}
           >
-            <div className="link-title">{link.short_url}</div>
-            <div className="link-url">{link.original_url}</div>
-            <div className="link-stats">
-              <div className="stat-item">
-                Tıklanma: {link.click_count || 0}
-              </div>
-              <div className="stat-item">
-                Kazanç: {link.earnings || 0}₺
-              </div>
+            <div className="link-header">
+              <div className="link-name">{link.name || 'İsimsiz Link'}</div>
+              <div className="link-date">{formatDate(link.created_at)}</div>
             </div>
+            <div 
+              className="link-short-url"
+              onClick={(e) => handleCopyClick(e, link.short_url, link.id)}
+            >
+              <span>http://localhost:3000/{link.short_url}</span>
+              <button className="copy-button">
+                {copiedId === link.id ? (
+                  <span className="copied-text">Kopyalandı!</span>
+                ) : (
+                  <svg 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  >
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                )}
+              </button>
+            </div>
+            <div className="link-original-url">{link.original_url}</div>
           </div>
         ))}
       </div>
