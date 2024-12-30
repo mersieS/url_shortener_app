@@ -4,6 +4,11 @@
   flex-direction: column;
 }
 
+.layout.dark {
+  background-color: #1a202c;
+  color: #e2e8f0;
+}
+
 .navbar {
   background: white;
   padding: 1rem 2rem;
@@ -13,6 +18,11 @@
   align-items: center;
   position: relative;
   z-index: 100;
+}
+
+.layout.dark .navbar {
+  background: #2d3748;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .nav-brand {
@@ -31,6 +41,12 @@
   transition: all 0.3s ease;
 }
 
+[data-theme='dark'] .nav-brand a {
+  background: linear-gradient(135deg, #90cdf4 0%, #b794f4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .nav-brand a:hover {
   transform: scale(1.05);
 }
@@ -38,6 +54,39 @@
 .nav-menu {
   display: flex;
   align-items: center;
+  gap: 1rem;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #4a5568;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.layout.dark .theme-toggle {
+  color: #e2e8f0;
+}
+
+.theme-toggle:hover {
+  background-color: #f7fafc;
+  color: #667eea;
+}
+
+.layout.dark .theme-toggle:hover {
+  background-color: #4a5568;
+  color: #90cdf4;
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
 }
 
 .dropdown {
@@ -56,8 +105,16 @@
   transition: background-color 0.2s ease;
 }
 
+.layout.dark .dropdown-toggle {
+  color: #e2e8f0;
+}
+
 .dropdown-toggle:hover {
   background-color: #f7fafc;
+}
+
+.layout.dark .dropdown-toggle:hover {
+  background-color: #4a5568;
 }
 
 .user-icon {
@@ -78,6 +135,11 @@
   animation: dropdownFade 0.2s ease;
 }
 
+.layout.dark .dropdown-menu {
+  background: #2d3748;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
 .dropdown-item {
   display: block;
   padding: 0.75rem 1rem;
@@ -93,13 +155,26 @@
   cursor: pointer;
 }
 
+.layout.dark .dropdown-item {
+  color: #e2e8f0;
+}
+
 .dropdown-item:hover {
   background: #f7fafc;
   color: #667eea;
 }
 
+.layout.dark .dropdown-item:hover {
+  background: #4a5568;
+  color: #90cdf4;
+}
+
 .dropdown-item.logout-button {
   color: #e53e3e;
+}
+
+.layout.dark .dropdown-item.logout-button {
+  color: #fc8181;
 }
 
 .dropdown-item.logout-button:hover {
@@ -107,9 +182,18 @@
   color: #c53030;
 }
 
+.layout.dark .dropdown-item.logout-button:hover {
+  background: #4a2c2c;
+  color: #fc8181;
+}
+
 .main-content {
   flex: 1;
   background: #f7fafc;
+}
+
+.layout.dark .main-content {
+  background: #1a202c;
 }
 
 @keyframes dropdownFade {

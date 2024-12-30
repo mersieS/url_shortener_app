@@ -19,6 +19,12 @@
   animation: logoFloat 3s ease-in-out infinite;
 }
 
+[data-theme='dark'] .site-logo {
+  background: linear-gradient(135deg, #90cdf4 0%, #b794f4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 @keyframes logoFloat {
   0%, 100% {
     transform: translateY(0);
@@ -36,6 +42,11 @@
   margin-bottom: 30px;
 }
 
+[data-theme='dark'] .url-shortener-card {
+  background: #2d3748;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
 .url-form {
   display: grid;
   grid-template-columns: 1fr 2fr auto;
@@ -51,11 +62,32 @@
   transition: all 0.3s ease;
   outline: none;
   width: 100%;
+  background: white;
+  color: #2d3748;
+}
+
+[data-theme='dark'] .url-input {
+  background: #1a202c;
+  border-color: #4a5568;
+  color: #e2e8f0;
 }
 
 .url-input:focus {
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+[data-theme='dark'] .url-input:focus {
+  border-color: #90cdf4;
+  box-shadow: 0 0 0 3px rgba(144, 205, 244, 0.1);
+}
+
+.url-input::placeholder {
+  color: #a0aec0;
+}
+
+[data-theme='dark'] .url-input::placeholder {
+  color: #718096;
 }
 
 .shorten-button {
@@ -117,9 +149,18 @@
   cursor: pointer;
 }
 
+[data-theme='dark'] .link-card {
+  background: #2d3748;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
 .link-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] .link-card:hover {
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 .link-header {
@@ -135,9 +176,17 @@
   color: #2d3748;
 }
 
+[data-theme='dark'] .link-name {
+  color: #e2e8f0;
+}
+
 .link-date {
   font-size: 14px;
   color: #718096;
+}
+
+[data-theme='dark'] .link-date {
+  color: #a0aec0;
 }
 
 .link-short-url {
@@ -156,8 +205,17 @@
   transition: all 0.2s ease;
 }
 
+[data-theme='dark'] .link-short-url {
+  background: #1a202c;
+  color: #90cdf4;
+}
+
 .link-short-url:hover {
   background: #edf2f7;
+}
+
+[data-theme='dark'] .link-short-url:hover {
+  background: #2d3748;
 }
 
 .link-short-url span {
@@ -178,9 +236,18 @@
   transition: all 0.2s ease;
 }
 
+[data-theme='dark'] .copy-button {
+  color: #a0aec0;
+}
+
 .copy-button:hover {
   background: #edf2f7;
   color: #667eea;
+}
+
+[data-theme='dark'] .copy-button:hover {
+  background: #2d3748;
+  color: #90cdf4;
 }
 
 .copy-button svg {
@@ -194,11 +261,19 @@
   font-weight: 500;
 }
 
+[data-theme='dark'] .copied-text {
+  color: #68d391;
+}
+
 .link-original-url {
   font-size: 14px;
   color: #718096;
   word-break: break-all;
   line-height: 1.4;
+}
+
+[data-theme='dark'] .link-original-url {
+  color: #a0aec0;
 }
 
 .error-message {
@@ -208,6 +283,11 @@
   border-radius: 12px;
   font-size: 14px;
   margin-bottom: 20px;
+}
+
+[data-theme='dark'] .error-message {
+  background: #4a2c2c;
+  color: #fc8181;
 }
 
 @keyframes spin {

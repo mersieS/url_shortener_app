@@ -15,6 +15,10 @@
   margin: 0;
 }
 
+[data-theme='dark'] .stats-header h2 {
+  color: #e2e8f0;
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -29,6 +33,11 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
+[data-theme='dark'] .stat-card {
+  background: #2d3748;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
 .stat-card h3 {
   color: #718096;
   font-size: 16px;
@@ -36,10 +45,18 @@
   margin: 0 0 10px 0;
 }
 
+[data-theme='dark'] .stat-card h3 {
+  color: #a0aec0;
+}
+
 .stat-value {
   font-size: 28px;
   font-weight: 700;
   color: #2d3748;
+}
+
+[data-theme='dark'] .stat-value {
+  color: #e2e8f0;
 }
 
 .chart-grid {
@@ -56,6 +73,11 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
+[data-theme='dark'] .chart-card {
+  background: #2d3748;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
 .chart-card h3 {
   color: #2d3748;
   font-size: 18px;
@@ -63,9 +85,40 @@
   margin: 0 0 20px 0;
 }
 
+[data-theme='dark'] .chart-card h3 {
+  color: #e2e8f0;
+}
+
 .chart-container {
   height: 300px;
   width: 100%;
+}
+
+[data-theme='dark'] .recharts-cartesian-grid-horizontal line,
+[data-theme='dark'] .recharts-cartesian-grid-vertical line {
+  stroke: #4a5568;
+}
+
+[data-theme='dark'] .recharts-text {
+  fill: #a0aec0;
+}
+
+[data-theme='dark'] .recharts-legend-item-text {
+  color: #e2e8f0 !important;
+}
+
+[data-theme='dark'] .recharts-tooltip-wrapper {
+  background: #2d3748 !important;
+  border-color: #4a5568 !important;
+}
+
+[data-theme='dark'] .recharts-default-tooltip {
+  background-color: #2d3748 !important;
+  border-color: #4a5568 !important;
+}
+
+[data-theme='dark'] .recharts-tooltip-item {
+  color: #e2e8f0 !important;
 }
 
 .loading-message {
@@ -75,6 +128,10 @@
   color: #718096;
 }
 
+[data-theme='dark'] .loading-message {
+  color: #a0aec0;
+}
+
 .error-message {
   background: #fed7d7;
   color: #c53030;
@@ -82,6 +139,11 @@
   border-radius: 12px;
   font-size: 14px;
   margin-bottom: 20px;
+}
+
+[data-theme='dark'] .error-message {
+  background: #4a2c2c;
+  color: #fc8181;
 }
 
 @media (max-width: 640px) {
