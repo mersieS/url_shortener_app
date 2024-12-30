@@ -94,7 +94,7 @@ const Dashboard = () => {
   };
 
   const handleCopyClick = async (e, shortUrl, id) => {
-    e.stopPropagation(); // Link karta tıklamayı engelle
+    e.stopPropagation();
     try {
       const fullUrl = `http://localhost:3000/${shortUrl}`;
       await navigator.clipboard.writeText(fullUrl);
@@ -107,7 +107,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h2>Dashboard</h2>
+        <h2 className="site-logo">SaloShort</h2>
       </div>
       
       <div className="url-shortener-card">
@@ -123,7 +123,7 @@ const Dashboard = () => {
           <input
             type="url"
             className="url-input"
-            placeholder="Kısaltmak istediğiniz URL'yi girin"
+            placeholder="Kısaltmak istediğiniz linki girin"
             value={newUrl}
             onChange={(e) => setNewUrl(e.target.value)}
             required

@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
     <div className="layout">
       <nav className="navbar">
         <div className="nav-brand">
-          <Link to="/dashboard">URL Kısaltıcı</Link>
+          <Link to="/dashboard">SaloShort</Link>
         </div>
         <div className="nav-menu">
           <div className="dropdown">

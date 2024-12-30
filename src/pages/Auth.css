@@ -3,18 +3,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
+  background: linear-gradient(135deg, #f6f9fc 0%, #edf2f7 100%);
 }
 
 .auth-box {
-  background: rgba(255, 255, 255, 0.95);
+  background: white;
   border-radius: 20px;
   padding: 40px;
   width: 100%;
-  max-width: 420px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
+  max-width: 480px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .auth-header {
@@ -22,16 +21,17 @@
   margin-bottom: 30px;
 }
 
-.auth-header h1 {
-  font-size: 28px;
-  color: #2d3748;
-  margin-bottom: 10px;
-  font-weight: 700;
+.auth-header .site-logo {
+  font-family: 'Righteous', cursive;
+  font-size: 2.5rem;
+  margin: 0 0 10px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .auth-header p {
   color: #718096;
-  font-size: 16px;
   margin: 0;
 }
 
@@ -49,15 +49,15 @@
 
 .form-group label {
   color: #4a5568;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
 .form-group input {
   padding: 12px 16px;
   border: 2px solid #e2e8f0;
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 12px;
+  font-size: 1rem;
   transition: all 0.3s ease;
   outline: none;
 }
@@ -78,8 +78,8 @@
   color: white;
   border: none;
   padding: 14px;
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 12px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -121,8 +121,8 @@
 .auth-error {
   background: #fed7d7;
   color: #c53030;
-  padding: 12px;
-  border-radius: 10px;
+  padding: 12px 20px;
+  border-radius: 12px;
   font-size: 14px;
   margin-bottom: 20px;
 }
@@ -130,8 +130,8 @@
 .auth-success {
   background: #c6f6d5;
   color: #2f855a;
-  padding: 12px;
-  border-radius: 10px;
+  padding: 12px 20px;
+  border-radius: 12px;
   font-size: 14px;
   margin-bottom: 20px;
 }
@@ -150,10 +150,19 @@
   color: #667eea;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
 .auth-links a:hover {
   color: #5a67d8;
-  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .auth-box {
+    padding: 30px 20px;
+  }
+
+  .auth-header .site-logo {
+    font-size: 2rem;
+  }
 } 

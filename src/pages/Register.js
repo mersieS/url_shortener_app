@@ -3,30 +3,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-  });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    if (formData.password !== formData.passwordConfirm) {
+    if (password !== passwordConfirmation) {
       setError('Şifreler eşleşmiyor');
       setLoading(false);
       return;
@@ -34,42 +24,31 @@ const Register = () => {
 
     try {
       const formBody = new URLSearchParams({
-        username: formData.name,
-        email: formData.email,
-        password: formData.password,
-        password_confirmation: formData.passwordConfirm,
-      });
-
-      console.log('İstek gönderiliyor:', {
-        url: `${process.env.REACT_APP_API_URL}/api/v1/users/sign_up`,
-        body: Object.fromEntries(formBody)
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation
       });
 
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/users/sign_up`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: formBody,
+        body: formBody
       });
 
       const data = await response.json();
-      console.log('Response Status:', response.status);
-      console.log('Response Body:', data);
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
-        navigate('/login', {
-          state: {
-            message: data.message || 'Kayıt başarılı',
-          },
+        navigate('/login', { 
+          state: { message: 'Kayıt başarılı! Şimdi giriş yapabilirsiniz.' }
         });
       } else {
-        let errorMessage = data.error || data.message || 'Kayıt işlemi başarısız';
-        throw new Error(errorMessage);
+        throw new Error(data.error || 'Kayıt olurken bir hata oluştu');
       }
     } catch (err) {
-      setError(err.message || 'Bağlantı hatası oluştu');
+      setError(err.message || 'Kayıt olurken bir hata oluştu');
     } finally {
       setLoading(false);
     }
@@ -79,21 +58,20 @@ const Register = () => {
     <div className="auth-container">
       <div className="auth-box">
         <div className="auth-header">
-          <h1>URL Kısaltıcı</h1>
+          <h1 className="site-logo">SaloShort</h1>
           <p>Yeni hesap oluşturun</p>
         </div>
-
+        
         {error && <div className="auth-error">{error}</div>}
-
+        
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label>Ad Soyad</label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Ad ve soyadınızı girin"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Adınızı ve soyadınızı girin"
               required
             />
           </div>
@@ -102,49 +80,43 @@ const Register = () => {
             <label>E-posta</label>
             <input
               type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="E-posta adresinizi girin"
               required
             />
           </div>
-
+          
           <div className="form-group">
             <label>Şifre</label>
             <input
               type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Şifrenizi girin"
               required
-              minLength={6}
             />
-            <small>Şifreniz en az 6 karakter uzunluğunda olmalıdır.</small>
           </div>
 
           <div className="form-group">
             <label>Şifre Tekrar</label>
             <input
               type="password"
-              name="passwordConfirm"
-              value={formData.passwordConfirm}
-              onChange={handleChange}
+              value={passwordConfirmation}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
               placeholder="Şifrenizi tekrar girin"
               required
-              minLength={6}
             />
           </div>
-
+          
           <button 
             type="submit" 
             className={`auth-button ${loading ? 'loading' : ''}`}
             disabled={loading}
           >
-            {loading ? 'Kayıt Yapılıyor...' : 'Kayıt Ol'}
+            {loading ? 'Kayıt yapılıyor...' : 'Kayıt Ol'}
           </button>
-
+          
           <div className="auth-links">
             <span>
               Zaten hesabınız var mı?{' '}

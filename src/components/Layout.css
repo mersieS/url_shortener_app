@@ -15,11 +15,24 @@
   z-index: 100;
 }
 
+.nav-brand {
+  display: flex;
+  align-items: center;
+}
+
 .nav-brand a {
-  color: #2d3748;
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-family: 'Righteous', cursive;
+  font-size: 2rem;
+  color: #667eea;
   text-decoration: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.nav-brand a:hover {
+  transform: scale(1.05);
 }
 
 .nav-menu {

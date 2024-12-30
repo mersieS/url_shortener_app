@@ -6,13 +6,26 @@
 
 .dashboard-header {
   margin-bottom: 30px;
+  text-align: center;
 }
 
-.dashboard-header h2 {
-  font-size: 32px;
-  color: #2d3748;
-  font-weight: 700;
+.site-logo {
+  font-family: 'Righteous', cursive;
+  font-size: 3rem;
   margin: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .url-shortener-card {
@@ -208,5 +221,9 @@
 
   .shorten-button {
     width: 100%;
+  }
+
+  .site-logo {
+    font-size: 2.5rem;
   }
 } 

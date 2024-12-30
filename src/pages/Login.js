@@ -67,7 +67,7 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-box">
         <div className="auth-header">
-          <h1>URL Kısaltıcı</h1>
+          <h1 className="site-logo">SaloShort</h1>
           <p>Hesabınıza giriş yapın</p>
         </div>
         
