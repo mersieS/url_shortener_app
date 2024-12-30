@@ -96,7 +96,7 @@ const Dashboard = () => {
   const handleCopyClick = async (e, shortUrl, id) => {
     e.stopPropagation();
     try {
-      const fullUrl = `${process.env.REACT_APP_BASE_URL}/${shortUrl}`;
+      const fullUrl = `http://saloshort.com/${shortUrl}`;
       await navigator.clipboard.writeText(fullUrl);
       setCopiedId(id);
     } catch (err) {
@@ -155,7 +155,7 @@ const Dashboard = () => {
               className="link-short-url"
               onClick={(e) => handleCopyClick(e, link.short_url, link.id)}
             >
-              <span>{process.env.REACT_APP_BASE_URL}/{link.short_url}</span>
+              <span>http://saloshort.com/{link.short_url}</span>
               <button className="copy-button">
                 {copiedId === link.id ? (
                   <span className="copied-text">Kopyalandı!</span>

@@ -162,7 +162,7 @@ const Statistics = () => {
           </div>
           <div className="detail-item">
             <span className="detail-label">Kısa URL:</span>
-            <a href={`${process.env.REACT_APP_BASE_URL}/${stats.short_url}`} target="_blank" rel="noopener noreferrer" className="detail-value link">{`${process.env.REACT_APP_BASE_URL}/${stats.short_url}`}</a>
+            <a href={`http://saloshort.com/${stats.short_url}`} target="_blank" rel="noopener noreferrer" className="detail-value link">{`http://saloshort.com/${stats.short_url}`}</a>
           </div>
           <div className="detail-item">
             <span className="detail-label">Oluşturulma Tarihi:</span>
