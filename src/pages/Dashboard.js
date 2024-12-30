@@ -155,7 +155,7 @@ const Dashboard = () => {
               className="link-short-url"
               onClick={(e) => handleCopyClick(e, link.short_url, link.id)}
             >
-              <span>https://saloshort.com/{link.short_url}</span>
+              <span>https://api.saloshort.com/{link.short_url}</span>
               <button className="copy-button">
                 {copiedId === link.id ? (
                   <span className="copied-text">Kopyalandı!</span>
