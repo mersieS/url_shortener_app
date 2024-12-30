@@ -328,4 +328,60 @@
 
 [data-theme='dark'] .city-clicks {
   color: #FC8181;
+}
+
+.link-details {
+  padding: 10px 0;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.detail-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+[data-theme='dark'] .detail-item {
+  border-bottom-color: #4A5568;
+}
+
+.detail-label {
+  min-width: 150px;
+  font-weight: 500;
+  color: #64748B;
+  margin-right: 16px;
+}
+
+[data-theme='dark'] .detail-label {
+  color: #A0AEC0;
+}
+
+.detail-value {
+  color: #1A202C;
+  flex: 1;
+  word-break: break-all;
+}
+
+[data-theme='dark'] .detail-value {
+  color: #E2E8F0;
+}
+
+.detail-value.link {
+  color: #3182CE;
+  text-decoration: none;
+}
+
+.detail-value.link:hover {
+  text-decoration: underline;
+}
+
+[data-theme='dark'] .detail-value.link {
+  color: #63B3ED;
 } 

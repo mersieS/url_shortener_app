@@ -88,19 +88,24 @@ const Statistics = () => {
           'Authorization': `Bearer ${token}`
         };
 
-        const [statsResponse, clicksResponse] = await Promise.all([
+        const [urlResponse, statsResponse, clicksResponse] = await Promise.all([
           fetch(`${process.env.REACT_APP_API_URL}/api/v1/urls/${linkId}`, { headers }),
+          fetch(`${process.env.REACT_APP_API_URL}/api/v1/urls/${linkId}/statistics`, { headers }),
           fetch(`${process.env.REACT_APP_API_URL}/api/v1/urls/${linkId}/clicks_per_day`, { headers })
         ]);
 
-        if (!statsResponse.ok || !clicksResponse.ok) {
+        if (!urlResponse.ok || !statsResponse.ok || !clicksResponse.ok) {
           throw new Error('Veriler alınamadı');
         }
 
+        const urlData = await urlResponse.json();
         const statsData = await statsResponse.json();
         const clicksData = await clicksResponse.json();
 
-        setStats(statsData.report);
+        setStats({
+          ...urlData.url,
+          ...statsData.report
+        });
         setDailyClicks(clicksData);
       } catch (err) {
         setError(err.message);
@@ -124,7 +129,7 @@ const Statistics = () => {
     setSelectedMarker(marker);
   };
 
-  if (loading) {
+  if (loading || !stats) {
     return <div className="loading-message">Yükleniyor...</div>;
   }
 
@@ -133,7 +138,7 @@ const Statistics = () => {
   }
 
   // Tıklama sayılarına göre marker boyutunu hesapla (maksimum 15px)
-  const maxClicks = Math.max(...stats.geo_stats.map(stat => stat.total_clicks));
+  const maxClicks = Math.max(...(stats.geo_stats || []).map(stat => stat.total_clicks));
   const sizeScale = scaleLinear()
     .domain([0, maxClicks])
     .range([5, 15]);
@@ -144,14 +149,42 @@ const Statistics = () => {
         <h2>Link İstatistikleri</h2>
       </div>
 
+      <div className="chart-card">
+        <h3>Link Detayları</h3>
+        <div className="link-details">
+          <div className="detail-item">
+            <span className="detail-label">Link İsmi:</span>
+            <span className="detail-value">{stats.name}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Orijinal URL:</span>
+            <a href={stats.original_url} target="_blank" rel="noopener noreferrer" className="detail-value link">{stats.original_url}</a>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Kısa URL:</span>
+            <a href={`http://localhost:3000/${stats.short_url}`} target="_blank" rel="noopener noreferrer" className="detail-value link">{`http://localhost:3000/${stats.short_url}`}</a>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Oluşturulma Tarihi:</span>
+            <span className="detail-value">{new Date(stats.created_at).toLocaleDateString('tr-TR', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric'
+            })}</span>
+          </div>
+        </div>
+      </div>
+
       <div className="stats-grid">
         <div className="stat-card">
           <h3>Toplam Tıklanma</h3>
-          <div className="stat-value">{stats.total_clicks}</div>
+          <div className="stat-value">{stats.total_clicks || 0}</div>
         </div>
         <div className="stat-card">
           <h3>Ortalama Günlük Tıklanma</h3>
-          <div className="stat-value">{stats.average_daily_clicks.toFixed(1)}</div>
+          <div className="stat-value">{(stats.average_daily_clicks || 0).toFixed(1)}</div>
         </div>
       </div>
 
@@ -209,7 +242,9 @@ const Statistics = () => {
                   ))
                 }
               </Geographies>
-              {stats.geo_stats.map((location) => (
+              {(stats.geo_stats || [])
+                .filter(location => location.country && location.country.trim() !== '')
+                .map((location) => (
                 <Marker
                   key={`${location.country}-${location.cities[0].name}`}
                   coordinates={[location.longitude, location.latitude]}
