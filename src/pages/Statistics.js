@@ -89,9 +89,9 @@ const Statistics = () => {
         };
 
         const [urlResponse, statsResponse, clicksResponse] = await Promise.all([
-          fetch(`http://saloshort.com/api/v1/urls/${linkId}`, { headers }),
-          fetch(`http://saloshort.com/api/v1/urls/${linkId}/statistics`, { headers }),
-          fetch(`http://saloshort.com/api/v1/urls/${linkId}/clicks_per_day`, { headers })
+          fetch(`http://api.saloshort.com/api/v1/urls/${linkId}`, { headers }),
+          fetch(`http://api.saloshort.com/api/v1/urls/${linkId}/statistics`, { headers }),
+          fetch(`http://api.saloshort.com/api/v1/urls/${linkId}/clicks_per_day`, { headers })
         ]);
 
         if (!urlResponse.ok || !statsResponse.ok || !clicksResponse.ok) {
