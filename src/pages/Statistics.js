@@ -89,9 +89,9 @@ const Statistics = () => {
         };
 
         const [urlResponse, statsResponse, clicksResponse] = await Promise.all([
-          fetch(`http://api.saloshort.com/api/v1/urls/${linkId}`, { headers }),
-          fetch(`http://api.saloshort.com/api/v1/urls/${linkId}/statistics`, { headers }),
-          fetch(`http://api.saloshort.com/api/v1/urls/${linkId}/clicks_per_day`, { headers })
+          fetch(`https://api.saloshort.com/api/v1/urls/${linkId}`, { headers }),
+          fetch(`https://api.saloshort.com/api/v1/urls/${linkId}/statistics`, { headers }),
+          fetch(`https://api.saloshort.com/api/v1/urls/${linkId}/clicks_per_day`, { headers })
         ]);
 
         if (!urlResponse.ok || !statsResponse.ok || !clicksResponse.ok) {
@@ -162,7 +162,7 @@ const Statistics = () => {
           </div>
           <div className="detail-item">
             <span className="detail-label">Kısa URL:</span>
-            <a href={`http://saloshort.com/${stats.short_url}`} target="_blank" rel="noopener noreferrer" className="detail-value link">{`http://saloshort.com/${stats.short_url}`}</a>
+            <a href={`https://saloshort.com/${stats.short_url}`} target="_blank" rel="noopener noreferrer" className="detail-value link">{`https://saloshort.com/${stats.short_url}`}</a>
           </div>
           <div className="detail-item">
             <span className="detail-label">Oluşturulma Tarihi:</span>

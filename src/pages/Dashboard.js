@@ -26,7 +26,7 @@ const Dashboard = () => {
 
   const fetchLinks = async () => {
     try {
-      const response = await fetch(`http://api.saloshort.com/api/v1/urls`, {
+      const response = await fetch(`https://api.saloshort.com/api/v1/urls`, {
         headers: { 
           'Authorization': `Bearer ${localStorage.getItem('token')}` 
         }
@@ -57,7 +57,7 @@ const Dashboard = () => {
         original_url: newUrl
       });
 
-      const response = await fetch(`http://api.saloshort.com/api/v1/urls`, {
+      const response = await fetch(`https://api.saloshort.com/api/v1/urls`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -96,7 +96,7 @@ const Dashboard = () => {
   const handleCopyClick = async (e, shortUrl, id) => {
     e.stopPropagation();
     try {
-      const fullUrl = `http://saloshort.com/${shortUrl}`;
+      const fullUrl = `https://saloshort.com/${shortUrl}`;
       await navigator.clipboard.writeText(fullUrl);
       setCopiedId(id);
     } catch (err) {
@@ -155,7 +155,7 @@ const Dashboard = () => {
               className="link-short-url"
               onClick={(e) => handleCopyClick(e, link.short_url, link.id)}
             >
-              <span>http://saloshort.com/{link.short_url}</span>
+              <span>https://saloshort.com/{link.short_url}</span>
               <button className="copy-button">
                 {copiedId === link.id ? (
                   <span className="copied-text">Kopyalandı!</span>

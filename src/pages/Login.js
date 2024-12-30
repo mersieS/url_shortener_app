@@ -31,11 +31,11 @@ const Login = () => {
       });
 
       console.log('İstek gönderiliyor:', {
-        url: `http://api.saloshort.com/api/v1/users/sign_in`,
+        url: `https://api.saloshort.com/api/v1/users/sign_in`,
         body: Object.fromEntries(formBody)
       });
 
-      const response = await fetch(`http://api.saloshort.com/api/v1/users/sign_in`, {
+      const response = await fetch(`https://api.saloshort.com/api/v1/users/sign_in`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
