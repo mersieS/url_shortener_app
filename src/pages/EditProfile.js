@@ -47,7 +47,7 @@ const EditProfile = () => {
         address: profile.address || ''
       });
 
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/user/profile`, {
+      const response = await fetch(`http://saloshort.com/api/v1/user/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

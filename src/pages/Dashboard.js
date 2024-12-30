@@ -26,7 +26,7 @@ const Dashboard = () => {
 
   const fetchLinks = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/urls`, {
+      const response = await fetch(`http://saloshort.com/api/v1/urls`, {
         headers: { 
           'Authorization': `Bearer ${localStorage.getItem('token')}` 
         }
@@ -57,7 +57,7 @@ const Dashboard = () => {
         original_url: newUrl
       });
 
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/urls`, {
+      const response = await fetch(`http://saloshort.com/api/v1/urls`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

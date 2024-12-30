@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/users/token?token=${token}`, {
+      const response = await fetch(`http://saloshort.com/api/v1/users/token?token=${token}`, {
         method: 'GET'
       });
 

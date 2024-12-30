@@ -30,7 +30,7 @@ const Register = () => {
         password_confirmation: passwordConfirmation
       });
 
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/users/sign_up`, {
+      const response = await fetch(`http://saloshort.com/api/v1/users/sign_up`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
