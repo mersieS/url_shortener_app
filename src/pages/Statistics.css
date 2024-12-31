@@ -188,14 +188,20 @@
   position: relative;
   width: 100%;
   height: 400px;
-  background: white;
-  border-radius: 12px;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #E2E8F0;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: var(--card-bg);
+  border-radius: 8px;
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+}
+
+.map-container svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden;
 }
 
 [data-theme='dark'] .map-container {

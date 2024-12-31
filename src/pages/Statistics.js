@@ -226,18 +226,33 @@ const Statistics = () => {
               scale: 100,
               center: [30, 40]
             }}
+            style={{
+              width: "100%",
+              height: "auto",
+              maxWidth: "100%"
+            }}
           >
-            <ZoomableGroup>
-              <Geographies geography={geoUrl}>
+            <ZoomableGroup
+              center={[30, 40]}
+              zoom={1}
+              maxZoom={4}
+              minZoom={1}
+            >
+              <Geographies 
+                geography={geoUrl}
+                style={{
+                  default: { outline: "none" }
+                }}
+              >
                 {({ geographies }) =>
                   geographies.map((geo) => (
                     <Geography
                       key={geo.rsmKey}
                       geography={geo}
                       style={{
-                        default: mapStyles.default,
-                        hover: mapStyles.hover,
-                        pressed: mapStyles.pressed
+                        default: {...mapStyles.default, outline: "none"},
+                        hover: {...mapStyles.hover, outline: "none"},
+                        pressed: {...mapStyles.pressed, outline: "none"}
                       }}
                     />
                   ))
