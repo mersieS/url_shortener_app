@@ -248,7 +248,7 @@ const Statistics = () => {
                 .map((location) => (
                 <Marker
                   key={`${location.country}-${location.cities[0].name}`}
-                  coordinates={[parseFloat(location.longitude), parseFloat(location.latitude)]}
+                  coordinates={[parseFloat(location.longitude), parseFloat(location.latitude)].reverse()}
                 >
                   <circle
                     r={sizeScale(location.total_clicks)}
