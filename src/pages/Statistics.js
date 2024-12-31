@@ -223,8 +223,7 @@ const Statistics = () => {
           <ComposableMap
             projection="geoMercator"
             projectionConfig={{
-              scale: 150,
-              center: [0, 20]
+              scale: 150
             }}
             style={{
               width: "100%",
@@ -233,17 +232,18 @@ const Statistics = () => {
             }}
           >
             <ZoomableGroup
-              center={[0, 20]}
               zoom={1.5}
               maxZoom={4}
               minZoom={1}
               translateExtent={[
-                [0, 0],
-                [0, 0]
+                [-180, -90],
+                [180, 90]
               ]}
               onMoveStart={(e) => {
                 if (selectedMarker) setSelectedMarker(null);
               }}
+              center={[0, 20]}
+              onMove={() => false}
             >
               <Geographies 
                 geography={geoUrl}
