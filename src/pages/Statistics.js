@@ -162,7 +162,7 @@ const Statistics = () => {
           </div>
           <div className="detail-item">
             <span className="detail-label">Kısa URL:</span>
-            <a href={`https://api.saloshort.com/${stats.short_url}`} target="_blank" rel="noopener noreferrer" className="detail-value link">{`https://saloshort.com/${stats.short_url}`}</a>
+            <a href={`https://api.saloshort.com/${stats.short_url}`} target="_blank" rel="noopener noreferrer" className="detail-value link">{`https://api.saloshort.com/${stats.short_url}`}</a>
           </div>
           <div className="detail-item">
             <span className="detail-label">Oluşturulma Tarihi:</span>
@@ -248,7 +248,7 @@ const Statistics = () => {
                 .map((location) => (
                 <Marker
                   key={`${location.country}-${location.cities[0].name}`}
-                  coordinates={[parseFloat(location.longitude), parseFloat(location.latitude)].reverse()}
+                  coordinates={[parseFloat(location.longitude), parseFloat(location.latitude)]}
                 >
                   <circle
                     r={sizeScale(location.total_clicks)}

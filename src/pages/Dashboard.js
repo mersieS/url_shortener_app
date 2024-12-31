@@ -96,7 +96,7 @@ const Dashboard = () => {
   const handleCopyClick = async (e, shortUrl, id) => {
     e.stopPropagation();
     try {
-      const fullUrl = `https://saloshort.com/${shortUrl}`;
+      const fullUrl = `https://api.saloshort.com/${shortUrl}`;
       await navigator.clipboard.writeText(fullUrl);
       setCopiedId(id);
     } catch (err) {
