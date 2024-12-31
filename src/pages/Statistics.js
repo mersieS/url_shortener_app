@@ -223,8 +223,8 @@ const Statistics = () => {
           <ComposableMap
             projection="geoMercator"
             projectionConfig={{
-              scale: 100,
-              center: [30, 40]
+              scale: 150,
+              center: [0, 20]
             }}
             style={{
               width: "100%",
@@ -233,10 +233,14 @@ const Statistics = () => {
             }}
           >
             <ZoomableGroup
-              center={[30, 40]}
-              zoom={1}
+              center={[0, 20]}
+              zoom={1.5}
               maxZoom={4}
               minZoom={1}
+              translateExtent={[
+                [-200, -100],
+                [200, 100]
+              ]}
             >
               <Geographies 
                 geography={geoUrl}

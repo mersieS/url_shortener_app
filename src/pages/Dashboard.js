@@ -37,12 +37,20 @@ const Dashboard = () => {
 
       if (response.ok) {
         setLinks(data.url || []);
+        setError('');
+      } else if (response.status === 404) {
+        setLinks([]);
+        setError('');
       } else {
         throw new Error(data.error || 'Linkler yüklenirken bir hata oluştu');
       }
     } catch (err) {
       console.error('Fetch links error:', err);
-      setError(err.message || 'Linkler yüklenirken bir hata oluştu');
+      if (err.message === 'Failed to fetch') {
+        setError('Bağlantı hatası oluştu. Lütfen internet bağlantınızı kontrol edin.');
+      } else {
+        setError(err.message);
+      }
     }
   };
 
@@ -141,42 +149,62 @@ const Dashboard = () => {
       {error && <div className="error-message">{error}</div>}
 
       <div className="links-grid">
-        {links.map((link) => (
-          <div 
-            key={link.id}
-            className="link-card"
-            onClick={() => navigate(`/statistics/${link.id}`)}
-          >
-            <div className="link-header">
-              <div className="link-name">{link.name || 'İsimsiz Link'}</div>
-              <div className="link-date">{formatDate(link.created_at)}</div>
-            </div>
-            <div 
-              className="link-short-url"
-              onClick={(e) => handleCopyClick(e, link.short_url, link.id)}
+        {links.length === 0 && !error ? (
+          <div className="empty-state">
+            <svg 
+              width="64" 
+              height="64" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="1.5" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
             >
-              <span>api.saloshort.com/{link.short_url}</span>
-              <button className="copy-button">
-                {copiedId === link.id ? (
-                  <span className="copied-text">Kopyalandı!</span>
-                ) : (
-                  <svg 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
-                  >
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                  </svg>
-                )}
-              </button>
-            </div>
-            <div className="link-original-url">{link.original_url}</div>
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+            </svg>
+            <h3>Henüz Hiç Linkiniz Yok</h3>
+            <p>Yukarıdaki formu kullanarak ilk linkinizi kısaltabilirsiniz.</p>
           </div>
-        ))}
+        ) : (
+          links.map((link) => (
+            <div 
+              key={link.id}
+              className="link-card"
+              onClick={() => navigate(`/statistics/${link.id}`)}
+            >
+              <div className="link-header">
+                <div className="link-name">{link.name || 'İsimsiz Link'}</div>
+                <div className="link-date">{formatDate(link.created_at)}</div>
+              </div>
+              <div 
+                className="link-short-url"
+                onClick={(e) => handleCopyClick(e, link.short_url, link.id)}
+              >
+                <span>api.saloshort.com/{link.short_url}</span>
+                <button className="copy-button">
+                  {copiedId === link.id ? (
+                    <span className="copied-text">Kopyalandı!</span>
+                  ) : (
+                    <svg 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      strokeWidth="2" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                    >
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                  )}
+                </button>
+              </div>
+              <div className="link-original-url">{link.original_url}</div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
