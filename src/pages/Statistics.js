@@ -223,8 +223,8 @@ const Statistics = () => {
           <ComposableMap
             projection="geoMercator"
             projectionConfig={{
-              scale: 140,
-              center: [0, 30]
+              scale: 100,
+              center: [30, 40]
             }}
           >
             <ZoomableGroup>
