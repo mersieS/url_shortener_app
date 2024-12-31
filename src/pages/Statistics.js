@@ -238,9 +238,12 @@ const Statistics = () => {
               maxZoom={4}
               minZoom={1}
               translateExtent={[
-                [-200, -100],
-                [200, 100]
+                [-180, -90],
+                [180, 90]
               ]}
+              onMoveStart={(e) => {
+                if (selectedMarker) setSelectedMarker(null);
+              }}
             >
               <Geographies 
                 geography={geoUrl}
@@ -257,6 +260,9 @@ const Statistics = () => {
                         default: {...mapStyles.default, outline: "none"},
                         hover: {...mapStyles.hover, outline: "none"},
                         pressed: {...mapStyles.pressed, outline: "none"}
+                      }}
+                      onMouseEnter={() => {
+                        if (selectedMarker) setSelectedMarker(null);
                       }}
                     />
                   ))
