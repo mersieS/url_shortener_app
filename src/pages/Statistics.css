@@ -193,12 +193,6 @@
   border-radius: 8px;
   -webkit-transform: translate3d(0,0,0);
   transform: translate3d(0,0,0);
-  touch-action: none;
-  cursor: grab;
-}
-
-.map-container:active {
-  cursor: grabbing;
 }
 
 .map-container svg {

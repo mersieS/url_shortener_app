@@ -238,8 +238,8 @@ const Statistics = () => {
               maxZoom={4}
               minZoom={1}
               translateExtent={[
-                [-180, -90],
-                [180, 90]
+                [0, 0],
+                [0, 0]
               ]}
               onMoveStart={(e) => {
                 if (selectedMarker) setSelectedMarker(null);
