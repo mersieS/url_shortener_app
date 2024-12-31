@@ -137,11 +137,11 @@ const Statistics = () => {
     return <div className="error-message">{error}</div>;
   }
 
-  // Tıklama sayılarına göre marker boyutunu hesapla (maksimum 15px)
+  // Tıklama sayılarına göre marker boyutunu hesapla (maksimum 8px)
   const maxClicks = Math.max(...(stats.geo_stats || []).map(stat => stat.total_clicks));
   const sizeScale = scaleLinear()
     .domain([0, maxClicks])
-    .range([5, 15]);
+    .range([3, 8]);
 
   return (
     <div className="stats-container">
@@ -223,7 +223,8 @@ const Statistics = () => {
           <ComposableMap
             projection="geoMercator"
             projectionConfig={{
-              scale: 100
+              scale: 140,
+              center: [0, 30]
             }}
           >
             <ZoomableGroup>
@@ -247,14 +248,14 @@ const Statistics = () => {
                 .map((location) => (
                 <Marker
                   key={`${location.country}-${location.cities[0].name}`}
-                  coordinates={[location.longitude, location.latitude]}
+                  coordinates={[parseFloat(location.longitude), parseFloat(location.latitude)]}
                 >
                   <circle
                     r={sizeScale(location.total_clicks)}
                     fill="#F53"
                     fillOpacity={0.6}
                     stroke="#FFFFFF"
-                    strokeWidth={2}
+                    strokeWidth={1}
                     onMouseEnter={(event) => handleMarkerClick(event, location)}
                     onMouseLeave={() => setSelectedMarker(null)}
                     style={{ cursor: 'pointer' }}
