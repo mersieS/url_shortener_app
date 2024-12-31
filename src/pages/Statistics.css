@@ -188,21 +188,15 @@
   position: relative;
   width: 100%;
   height: 400px;
-  overflow: hidden;
   background: var(--card-bg);
   border-radius: 8px;
-  -webkit-transform: translate3d(0,0,0);
-  transform: translate3d(0,0,0);
+  overflow: hidden;
 }
 
 .map-container svg {
   width: 100%;
   height: 100%;
   display: block;
-  -webkit-transform: translate3d(0,0,0);
-  transform: translate3d(0,0,0);
-  backface-visibility: hidden;
-  pointer-events: all;
 }
 
 [data-theme='dark'] .map-container {
